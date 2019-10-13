@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Marker } from '../../classes/marker.class';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { UploadMapComponent } from './upload-map.component';
 
 
 @Component({
@@ -18,7 +20,8 @@ export class MapComponent implements OnInit {
   snackBarRef: MatSnackBar;
 
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(private snackBar: MatSnackBar,
+    public dialog: MatDialog) {
 
     if (localStorage.getItem('markers')) {
       this.markers = JSON.parse(localStorage.getItem('markers'));
@@ -36,14 +39,33 @@ export class MapComponent implements OnInit {
     const NEW_MARKER = new Marker(coords.lat, coords.lng);
     this.markers.push(NEW_MARKER);
     this.saveStorage();
-
-    this.snackBar.open('Marcador agregado', 'Cerrar');
+    this.snackBar.open('Marcador agregado', 'Cerrar', { duration: 3000 });
   }
 
   deleteMarker(i: number) {
     this.markers.splice(i, 1);
     this.saveStorage();
-    this.snackBar.open('Marcador eliminado', 'Cerrar');
+    this.snackBar.open('Marcador eliminado', 'Cerrar', { duration: 3000 });
+  }
+
+  updateMarker(marker: Marker) {
+
+    const dialogRef = this.dialog.open(UploadMapComponent, {
+      width: '250px',
+      data: { tittle: marker.tittle, description: marker.description }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      marker.tittle = result.tittle;
+      marker.description = result.description;
+
+      this.saveStorage();
+      this.snackBar.open('Marcador actualizado', 'Cerrar', { duration: 3000 });
+    });
   }
 
   saveStorage() {
