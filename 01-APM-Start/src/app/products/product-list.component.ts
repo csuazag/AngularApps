@@ -20,10 +20,10 @@ export class ProductListComponent implements OnInit {
     filteredProducts: IProduct[];
     products: IProduct[];
 
-    constructor(private productService: ProductService) {}
+    constructor(private _productService: ProductService) {}
 
     ngOnInit(): void {
-        this.productService.getProducts().subscribe({
+        this._productService.getProducts().subscribe({
             next: products => {
                 this.products = products;
                 this.filteredProducts = this.products;

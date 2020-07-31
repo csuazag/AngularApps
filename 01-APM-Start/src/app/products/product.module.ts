@@ -6,7 +6,6 @@ import { ProductDetailGuard } from './product-detail.guard';
 import { SharedModule } from '../shared/shared.module';
 
 
-
 @NgModule({
   declarations: [
     ProductListComponent,
@@ -18,6 +17,6 @@ import { SharedModule } from '../shared/shared.module';
       { path: 'products/:id', canActivate: [ProductDetailGuard], component: ProductDetailComponent},
     ]),
     SharedModule
-  ]
+  ],
 })
 export class ProductModule { }

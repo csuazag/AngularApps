@@ -4,19 +4,11 @@ import { StarComponent } from './star.component';
 import { FormsModule } from '@angular/forms';
 import { ConvertToSpaces } from './convert-to-spaces';
 
-
+const entryComponents = [StarComponent, ConvertToSpaces];
 
 @NgModule({
-  declarations: [
-    StarComponent
-  ],
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    StarComponent,
-    FormsModule,
-    ConvertToSpaces
-  ]
+  declarations: [...entryComponents],
+  imports: [CommonModule],
+  exports: [...entryComponents, CommonModule, FormsModule],
 })
-export class SharedModule { }
+export class SharedModule {}
